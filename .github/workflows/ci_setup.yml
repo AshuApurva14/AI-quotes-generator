@@ -18,6 +18,6 @@ jobs:
         uses: actions/setup-node@v4.2.0
 
 
-      - name: build using npm
+      - name: install dependencies
         run: |
-           npm install
+           npm install ./ai-quotes-app/package.json
