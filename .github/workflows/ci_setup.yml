@@ -20,4 +20,4 @@ jobs:
 
       - name: install dependencies
         run: |
-           npm install ./ai-quotes-app/package.json
+           npm install 
