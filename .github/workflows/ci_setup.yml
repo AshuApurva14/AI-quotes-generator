@@ -1,0 +1,25 @@
+name: CI workflow to build AI app
+
+on:
+  push:
+    branches:
+      - feature-1
+
+jobs:
+  ci_setup:
+     
+     runs-on: [ubuntu-latest]
+
+     steps:
+       - name: Checkout Repository
+         uses: actions/checkout@v4.2.2
+
+       - name: Setup Node.js environment
+         uses: actions/setup-node@v4.2.0
+
+       - name: Verify version
+         run: |
+            node --version
+            npm --version
+
+        
