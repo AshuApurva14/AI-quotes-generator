@@ -11,13 +11,34 @@ jobs:
      runs-on: [ubuntu-latest]
 
      steps:
+
+      # Checkout Code repository
       - name: Checkout Repository
         uses: actions/checkout@v4.2.2
 
+
+      # Setup nodejs environement
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.2.0
 
+      # Find npm cache directory
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
+      # Cache dependencies
+      - name: Cache dependencies 
+        uses: actions/cache@v4
+        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: install dependencies
         run: |
            npm install ci-test
+
+      - name: 
