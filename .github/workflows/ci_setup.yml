@@ -37,8 +37,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+       # Install dependencies       
       - name: install dependencies
         run: |
            npm install ci-test
 
+      - name: Build with npm
+        run: |
+           npm build
+           
+      
     
