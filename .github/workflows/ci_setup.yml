@@ -44,7 +44,7 @@ jobs:
 
       - name: Build with npm
         run: |
-           npm build
-           
+           npm run build
+
       
     
