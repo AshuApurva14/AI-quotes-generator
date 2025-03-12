@@ -43,8 +43,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: SonarQube Cloud Scan
-        uses: SonarSource/sonarcloud-github-action@v5.0.0
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
           SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
