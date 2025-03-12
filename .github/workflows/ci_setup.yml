@@ -9,6 +9,12 @@ jobs:
   ci_setup:
      
      runs-on: [ubuntu-latest]
+     environment: development
+
+     env:
+       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
      steps:
 
@@ -37,14 +43,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarcloud-github-action@v5.0.0
+        env:
+          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+
        # Install dependencies       
       - name: install dependencies
         run: |
            npm install ci-test
 
+           
       - name: Build with npm
         run: |
            npm run build
+
 
       
     
