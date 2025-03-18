@@ -21,6 +21,8 @@ jobs:
       # Checkout Code repository
       - name: Checkout Repository
         uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
 
 
       # Setup nodejs environement
@@ -43,11 +45,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: SonarQube Scan
+      - name: Official SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
-          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
        # Install dependencies       
       - name: install dependencies
