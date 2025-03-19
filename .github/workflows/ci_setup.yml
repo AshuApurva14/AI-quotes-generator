@@ -46,10 +46,9 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Official SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5.0.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sonar-scanner -Dsonar.projectKey=Apurva14A_AI-quotes-generator -Dsonar.sources=src -Dsonar.token=${{ env.SONAR_TOKEN }} -Dsonar.verbose=true
+      
 
        # Install dependencies       
       - name: install dependencies
