@@ -47,6 +47,7 @@ jobs:
 
       - name: Official SonarQube Scan
         run: |
+          npm install -g @sonar/scan
           sonar-scanner -Dsonar.projectKey=Apurva14A_AI-quotes-generator -Dsonar.sources=src -Dsonar.token=${{ env.SONAR_TOKEN }} -Dsonar.verbose=true
       
 
