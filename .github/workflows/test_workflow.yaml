@@ -1,0 +1,34 @@
+name: Process Links from YAML
+
+on:
+  workflow_dispatch:
+
+jobs:
+  process-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install yq
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+          sudo chmod +x /usr/bin/yq
+
+      - name: Extract and Format Links
+        run: |
+          LINKS=""
+          for i in $(yq e '.links | keys' metadata.yaml); do
+            NAME=$(yq e ".links[$i].name" metadata.yaml)
+            URL=$(yq e ".links[$i].url" metadata.yaml)
+            TYPE=$(yq e ".links[$i].type" metadata.yaml)
+            PROVIDER=$(yq e ".links[$i].provider" metadata.yaml)
+
+            LINKS="$LINKS\n  - name: $NAME\n    url: $URL\n    type: $TYPE\n    provider: $PROVIDER"
+          done
+          echo -e "LINKS<<EOF\n$LINKS\nEOF" >> $GITHUB_ENV
+
+      - name: Use Links in Deployment
+        run: |
+          echo "Final Processed Links:"
+          echo "$LINKS"
