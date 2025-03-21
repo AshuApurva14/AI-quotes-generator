@@ -23,13 +23,13 @@ jobs:
       - name: Extract and Format Links
         run: |
           LINKS=""
-          LENGTH=$(yq e '.links | length' metadata.yaml)
+          LENGTH=$(yq e '.links | length' jq_config.yaml)
           
           for ((i=0; i<LENGTH; i++)); do
-            NAME=$(yq e ".links[$i].name" metadata.yaml)
-            URL=$(yq e ".links[$i].url" metadata.yaml)
-            TYPE=$(yq e ".links[$i].type" metadata.yaml)
-            PROVIDER=$(yq e ".links[$i].provider" metadata.yaml)
+            NAME=$(yq e ".links[$i].name" jq_config.yaml)
+            URL=$(yq e ".links[$i].url" jq_config.yaml)
+            TYPE=$(yq e ".links[$i].type" jq_config.yaml)
+            PROVIDER=$(yq e ".links[$i].provider" jq_config.yaml)
 
             LINKS="$LINKS\n  - name: $NAME\n    url: $URL\n    type: $TYPE\n    provider: $PROVIDER"
           done
