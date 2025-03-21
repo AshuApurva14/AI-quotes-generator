@@ -1,6 +1,6 @@
-service-name: hello-world
+
 links:
-  - name: Primary Repo
+  - name: Prepaid cart service
     url: https://github.com/fake-org/hello-world
     type: repo
     provider: github
