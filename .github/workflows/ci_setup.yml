@@ -120,8 +120,16 @@ jobs:
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
     steps:
+
+      # Checkout Code repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      # Setup nodejs environement
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.2.0
