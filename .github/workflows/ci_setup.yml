@@ -92,7 +92,7 @@ jobs:
         
       - name: Run unit tests with Vitest
         run: |
-          npm run test -- --watchAll=false --ci --passWithNoTests
+          npm run test  --ci --passWithNoTests
   
 
       
