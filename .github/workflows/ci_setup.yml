@@ -92,7 +92,7 @@ jobs:
         
       - name: Run unit tests with Vitest
         run: |
-          npm run test  --ci --passWithNoTests
+          npm run test 
   
 
       
@@ -106,6 +106,10 @@ jobs:
         uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0
+
+      - name: Install cnd configure eslint
+        run: |
+          npm install -D eslint eslint-plugin-vue eslint-config-prettier eslint-plugin-prettier
 
       - name: Run linting
         run: |
