@@ -181,13 +181,10 @@ jobs:
 
       - name: Build Docker image
         id: build-image
+        if: steps.docker-login.conclusion == 'success'
         run: |
-          if {{ steps.docker-login.conclusion == 'success' }}; then
             echo "Docker login successful"
             docker build -t aapurva/sde-project-2025:dev-0.1 .
             docker push aapurva/sde-project-2025:dev-0.1
-          else
-            echo "Docker login failed"
-            exit 1
-          fi
+            echo "Docker image pushed successfully"
         
