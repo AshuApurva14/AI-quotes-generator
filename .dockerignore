@@ -8,7 +8,7 @@ build
 dist
 
 # local env files
-.env
+
 .env.local
 .env.development
 .env.production
@@ -25,24 +25,4 @@ yarn-error.log
 build
 dist
 
-# local env files
-.env
-.env.local
-.env.development
-.env.production
 
-# system files
-.DS_Store
-Thumbs.db
-
-# test and IDE files
-*.test.js
-coverage
-.vscode
-.idea
-
-# test and IDE files
-*.test.js
-coverage
-.vscode
-.idea
