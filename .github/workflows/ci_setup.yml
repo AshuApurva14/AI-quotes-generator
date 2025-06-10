@@ -1,0 +1,190 @@
+name: CI workflow to build AI app
+
+on:
+  push:
+    branches: 
+      - feature-1
+
+jobs:
+  Build:
+     
+     runs-on: [ubuntu-latest]
+     environment: development
+
+    
+     steps:
+
+      # Checkout Code repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+
+      # Setup nodejs environement
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.2.0
+
+      # Find npm cache directory
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
+      # Cache dependencies
+      - name: Cache dependencies 
+        uses: actions/cache@v4
+        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Install dependencies       
+      - name: install dependencies
+        run: |
+           npm install 
+           
+      - name: Build with npm
+        run: |
+           npm run build
+
+
+      # Run tests   
+  unit_testing:
+    runs-on: [ubuntu-latest]
+    needs: Build
+    environment: development
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.2.0
+  
+      # Find npm cache directory
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+  
+      # Cache dependencies
+      - name: Cache dependencies 
+        uses: actions/cache@v4
+        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Vitest
+        run: |
+           npm install -D vitest
+        
+      - name: Run unit tests with Vitest
+        run: |
+          npm run test 
+  
+
+      
+  Linting:
+    runs-on: [ubuntu-latest]
+    needs: unit_testing
+    environment: development
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Install cnd configure eslint
+        run: |
+          npm install -D eslint eslint-plugin-vue eslint-config-prettier eslint-plugin-prettier
+
+      - name: Run linting
+        run: |
+          npm run lint -- --max-warnings=0 --quiet
+
+
+  Code_coverage:
+    runs-on: [ubuntu-latest]
+    needs: Linting
+    environment: development
+
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+
+      # Checkout Code repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      # Setup nodejs environement
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.2.0
+  
+      # Find npm cache directory
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+  
+        # Cache dependencies
+      - name: Cache dependencies 
+        uses: actions/cache@v4
+        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+  
+
+      - name: Code Coverage by SonarQube
+        run: |
+          npm install -g @sonar/scan
+          sonar-scanner -Dsonar.organization=apurva14a -Dsonar.projectKey=Apurva14A_AI-quotes-generator  -Dsonar.sources=src -Dsonar.token=${{ env.SONAR_TOKEN }} 
+        
+  build-docker-image:
+    runs-on: [ubuntu-latest]
+    needs: Code_coverage
+    environment: development
+
+    env:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+    
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Docker Login
+        id: docker-login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKER_HUB_USERNAME }}
+          password: ${{ env.DOCKER_HUB_TOKEN }}
+
+      - name: Build Docker image
+        id: build-image
+        if: steps.docker-login.conclusion == 'success'
+        run: |
+            echo "Docker login successful"
+            docker build -t aapurva/sde-project-2025:dev-0.1 .
+            docker push aapurva/sde-project-2025:dev-0.1
+            echo "Docker image pushed successfully"
+        
