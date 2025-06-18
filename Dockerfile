@@ -7,14 +7,13 @@ WORKDIR /usr/src/app
 # Install dependencies
 COPY package*.json ./
 
-COPY  .env ./
-
 
 # Install production dependencies
 RUN npm install
 
 # Copy source code
 COPY . /usr/src/app/
+
 
 # Build the app
 RUN npm run build

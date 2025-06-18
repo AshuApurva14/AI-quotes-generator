@@ -15,8 +15,11 @@ function App() {
       setQuote(""); // Clear previous quote
 
       const apiKey = import.meta.env.VITE_API_KEY; // Access API key from environment variables
+      if (!apiKey) {
+       console.error('VITE_API_KEY is not defined');  // Variables validation 
+      }
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
       const result = await model.generateContent(userInput || "best english quotes."); // Use user input or default
       setQuote(result.response.text());
     } catch (err) {

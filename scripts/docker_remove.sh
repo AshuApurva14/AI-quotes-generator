@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-if 
-docker rm -f $(docker ps -aq)
+set -e
+
+CONTAINER_RUNNING=$(docker ps -aq)
 
 docker rmi -f $(docker images -q)
 
