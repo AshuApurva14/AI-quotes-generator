@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GEMINI_API_KEY=AIzaSyA2TZpA6d78J2Moszc00sP-6GQ9bJRMUio
+
 
 curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GEMINI_API_KEY" \
 -H 'Content-Type: application/json' \
