@@ -1,9 +1,10 @@
-name: CI workflow to build AI app
+name: CICD workflow to build AI app
 
 on:
-  push:
-    branches: 
-      - feature-1
+  workflow_dispatch:
+  # push:
+  #   branches: 
+  #     - feature-1
 
 jobs:
   Build:
