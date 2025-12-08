@@ -24,7 +24,7 @@ jobs:
 
       # Setup nodejs environement
       - name: Setup Node.js environment
-        uses: actions/setup-node@v5.0.0
+        uses: actions/setup-node@v6.1.0
 
       # Find npm cache directory
       - name: Get npm cache directory
@@ -65,7 +65,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v5.0.0
+        uses: actions/setup-node@v6.1.0
   
       # Find npm cache directory
       - name: Get npm cache directory
@@ -133,7 +133,7 @@ jobs:
       # Setup nodejs environement
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v5.0.0
+        uses: actions/setup-node@v6.1.0
   
       # Find npm cache directory
       - name: Get npm cache directory
