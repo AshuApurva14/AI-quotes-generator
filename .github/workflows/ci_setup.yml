@@ -17,14 +17,14 @@ jobs:
 
       # Checkout Code repository
       - name: Checkout Repository
-        uses: actions/checkout@v6.0.0
+        uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 0
 
 
       # Setup nodejs environement
       - name: Setup Node.js environment
-        uses: actions/setup-node@v5.0.0
+        uses: actions/setup-node@v6.2.0
 
       # Find npm cache directory
       - name: Get npm cache directory
@@ -34,7 +34,7 @@ jobs:
 
       # Cache dependencies
       - name: Cache dependencies 
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
@@ -60,12 +60,12 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6.0.0
+        uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 0
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v5.0.0
+        uses: actions/setup-node@v6.2.0
   
       # Find npm cache directory
       - name: Get npm cache directory
@@ -75,7 +75,7 @@ jobs:
   
       # Cache dependencies
       - name: Cache dependencies 
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
@@ -100,7 +100,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6.0.0
+        uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 0
 
@@ -126,14 +126,14 @@ jobs:
 
       # Checkout Code repository
       - name: Checkout Repository
-        uses: actions/checkout@v6.0.0
+        uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 0
 
       # Setup nodejs environement
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v5.0.0
+        uses: actions/setup-node@v6.2.0
   
       # Find npm cache directory
       - name: Get npm cache directory
@@ -143,7 +143,7 @@ jobs:
   
         # Cache dependencies
       - name: Cache dependencies 
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
@@ -169,7 +169,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6.0.0
+        uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 0
 
